@@ -6,10 +6,15 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
+import { PaintingSchema } from "@/validation/paintings";
 import { useQueryState } from "nuqs";
 
-export function PaintingsFilters() {
-  const [year, setYear] = useQueryState("year", {
+export function PaintingsFilters({
+  paintings,
+}: {
+  paintings: PaintingSchema[];
+}) {
+  const [artist, setArtist] = useQueryState("artist", {
     defaultValue: "",
     clearOnDefault: true,
   });
@@ -21,12 +26,14 @@ export function PaintingsFilters() {
 
   return (
     <div>
-      <Select value={year} onValueChange={setYear}>
-        <SelectTrigger>Year</SelectTrigger>
+      <Select value={artist} onValueChange={setArtist}>
+        <SelectTrigger>Artist</SelectTrigger>
         <SelectContent>
-          <SelectItem value="jsp">jsp</SelectItem>
-          <SelectItem value="jsp2">jsp</SelectItem>
-          <SelectItem value="jsp3">jsp</SelectItem>
+          {paintings.map(painting => (
+            <SelectItem key={painting.id} value={painting.artist}>
+              {painting.artist}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

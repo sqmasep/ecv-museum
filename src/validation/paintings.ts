@@ -16,6 +16,8 @@ export const paintingSchema = v.object({
   slug: v.string(),
 });
 
+export type PaintingSchema = v.InferInput<typeof paintingSchema>;
+
 export const paintingsSchema = v.array(paintingSchema);
 
 export const paintingsResponseSchema = v.object({
@@ -26,3 +28,5 @@ export const paintingsResponseSchema = v.object({
   hasNextPage: v.boolean(),
   hasPrevPage: v.boolean(),
 });
+
+export type PaintingsResponse = v.InferInput<typeof paintingsResponseSchema>;
