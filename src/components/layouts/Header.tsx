@@ -17,6 +17,9 @@ export function Header() {
           <Button asChild variant="ghost">
             <TransitionLink href="/paintings">Paintings</TransitionLink>
           </Button>
+          <Button asChild variant="ghost">
+            <TransitionLink href="/billetterie">Billetterie</TransitionLink>
+          </Button>
         </div>
 
         <PaintingSearch />

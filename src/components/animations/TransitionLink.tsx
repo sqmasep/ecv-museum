@@ -14,7 +14,8 @@ export default function TransitionLink({
   ...props
 }: React.ComponentProps<typeof Link>) {
   const defaultRef = useRef(null);
-  const { isTransitionActive, setIsTransitionActive } = useGlobalStore();
+  const { isTransitionActive, setIsTransitionActive, setPageToGoTo } =
+    useGlobalStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -27,11 +28,10 @@ export default function TransitionLink({
         e.preventDefault();
         if (pathname === href) return;
         if (isTransitionActive) return;
+        setPageToGoTo(href.toString());
         setIsTransitionActive(true);
+
         onClick?.(e);
-        setTimeout(() => {
-          router.push(href.toString());
-        }, 400);
       }}
     >
       {children}

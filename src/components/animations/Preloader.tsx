@@ -21,11 +21,11 @@ export default function Preloader() {
 
       const tl = gsap.timeline();
 
-      tl.fromTo(textRef.current, { opacity: 0 }, { opacity: 1, duration: 1 });
+      tl.fromTo(textRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5 });
       tl.fromTo(
         textRef.current.querySelectorAll("[data-dot]"),
         { opacity: 0, y: -20 },
-        { opacity: 1, stagger: 0.2, duration: 0.2, repeat: 4, yoyo: true }
+        { opacity: 1, stagger: 0.2, duration: 0.2, repeat: 3, yoyo: true }
       );
 
       tl.fromTo(
@@ -40,7 +40,7 @@ export default function Preloader() {
           repeat: 2,
           yoyo: true,
           stagger: 0.2,
-          duration: 0.5,
+          duration: 0.3,
         },
         "<"
       );
@@ -58,7 +58,7 @@ export default function Preloader() {
           borderRadius: 0,
           opacity: 1,
           stagger: 0.2,
-          duration: 1.5,
+          duration: 1,
           ease: "power3.inOut",
           onComplete: () => {
             gsap.set(document.body, { overflow: undefined });
