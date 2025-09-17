@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Architects_Daughter, Quintessential, Sen } from "next/font/google";
 import "./globals.css";
+import { Lenis } from "@/lib/Lenis";
+import { Cursor } from "@/lib/Cursor";
+import GSAP from "@/lib/GSAP";
+import { Header } from "@/components/layouts/Header";
+import Transition from "@/components/animations/Transition";
+import Preloader from "@/components/animations/Preloader";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sen = Sen({
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const quintessential = Quintessential({
+  variable: "--font-cursive",
   subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -23,11 +31,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="min-h-dvh">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${sen.variable} ${quintessential.variable} antialiased min-h-dvh`}
       >
-        {children}
+        <NuqsAdapter>
+          <Preloader />
+          <Transition>
+            <Lenis>
+              <Cursor />
+              <GSAP />
+              <Header />
+              {children}
+            </Lenis>
+          </Transition>
+        </NuqsAdapter>
       </body>
     </html>
   );
