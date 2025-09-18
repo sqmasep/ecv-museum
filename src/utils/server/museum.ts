@@ -2,9 +2,9 @@
 
 import * as v from "valibot";
 import {
+  PaintingSchema,
   paintingSchema,
   paintingsResponseSchema,
-  paintingsSchema,
 } from "@/validation/paintings";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL!;
@@ -38,4 +38,34 @@ export async function getPaintingBySlug(slug: string) {
   const safeData = v.parse(paintingSchema, data);
 
   return safeData;
+}
+
+export async function getRelatedPaintings(painting: PaintingSchema) {
+  const { paintings } = await getAllPaintings();
+
+  const related = [] as PaintingSchema[];
+
+  for (const p of paintings) {
+    if (p.slug === painting.slug) continue;
+    if (related.length >= 4) break;
+
+    if (p.artist === painting.artist) {
+      related.push(p);
+      continue;
+    }
+
+    // Related by movement
+    if (p.movement === painting.movement) {
+      related.push(p);
+      continue;
+    }
+
+    // Related by
+    if (p.type === painting.type) {
+      related.push(p);
+      continue;
+    }
+  }
+
+  return related;
 }

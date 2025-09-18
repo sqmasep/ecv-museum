@@ -1,38 +1,52 @@
 "use client";
 
+import { Image } from "@/components/Image";
 import TransitionLink from "@/components/animations/TransitionLink";
 import { useDebounce } from "@/hooks/useDebounce";
-import { getAllPaintings } from "@/utils/server/museum";
+import { PaintingSchema } from "@/validation/paintings";
 import { Search } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export function PaintingSearch() {
+const MAX_RESULTS_LENGTH = 5;
+
+export function PaintingSearch({ paintings }: { paintings: PaintingSchema[] }) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<
-    Awaited<ReturnType<typeof getAllPaintings>>["paintings"]
-  >([]);
+  const [results, setResults] = useState<PaintingSchema[]>([]);
   const [debouncedQuery, setDebouncedQuery] = useDebounce(query, 300);
 
   useEffect(() => {
-    const abortController = new AbortController();
+    const filtered = [] as PaintingSchema[];
 
-    async function getFilteredPaintings() {
-      const { paintings } = await getAllPaintings();
-      const filtered = paintings.filter(p =>
-        p.title.toLowerCase().includes(debouncedQuery.toLowerCase())
-      );
-
-      if (!abortController.signal.aborted) {
-        setResults(filtered);
-      }
+    function searchByTitle(p: PaintingSchema) {
+      return p.title.toLowerCase().includes(debouncedQuery.toLowerCase());
     }
 
-    getFilteredPaintings();
+    function searchByArtist(p: PaintingSchema) {
+      return p.artist.toLowerCase().includes(debouncedQuery.toLowerCase());
+    }
 
-    return () => {
-      abortController.abort();
-    };
+    function searchByMovement(p: PaintingSchema) {
+      return p.movement.toLowerCase().includes(debouncedQuery.toLowerCase());
+    }
+
+    function searchByYear(p: PaintingSchema) {
+      return p.year.toString().includes(debouncedQuery);
+    }
+
+    const searchFns = [
+      searchByTitle,
+      searchByArtist,
+      searchByMovement,
+      searchByYear,
+    ];
+
+    searchFns.forEach(searchFn => {
+      if (filtered.length >= MAX_RESULTS_LENGTH) return;
+      const res = paintings.filter(searchFn).slice(0, MAX_RESULTS_LENGTH);
+      filtered.push(...res);
+    });
+
+    setResults(filtered.slice(0, MAX_RESULTS_LENGTH));
   }, [debouncedQuery]);
 
   return (
@@ -48,7 +62,13 @@ export function PaintingSearch() {
         onChange={e => setQuery(e.target.value)}
       />
 
-      <div className="absolute left-0 z-50 w-full flex flex-col top-full bg-background border p-2 rounded-xl max-h-36 overflow-auto">
+      <div
+        data-lenis-prevent
+        data-hidden={
+          results.length === 0 || debouncedQuery.length === 0 || undefined
+        }
+        className="absolute right-0 z-50 flex flex-col top-full bg-background border p-2 rounded-xl max-h-96 overflow-auto data-hidden:hidden"
+      >
         {results.map(p => (
           <TransitionLink
             href={`/paintings/${p.slug}`}
@@ -57,10 +77,17 @@ export function PaintingSearch() {
               setDebouncedQuery("");
               setResults([]);
             }}
-            className="hover:bg-zinc-200"
+            className="hover:bg-zinc-200 flex items-center gap-4 p-2 rounded"
             key={p.id}
           >
-            {p.title}
+            <div className="size-12 relative shrink-0">
+              <Image src={p.image} alt={p.title} />
+            </div>
+
+            <span className="inline items-center gap-1">
+              <span>{p.title}</span>
+              <span className="italic text-zinc-600 text-sm">({p.year})</span>
+            </span>
           </TransitionLink>
         ))}
       </div>

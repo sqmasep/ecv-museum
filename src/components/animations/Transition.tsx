@@ -29,8 +29,20 @@ export default function Transition({
     setPageToGoTo,
   } = useGlobalStore();
 
+  function _resetColumns() {
+    if (!columnContainerRef.current) return;
+
+    gsap.set(columnContainerRef.current, {
+      yPercent: 100,
+    });
+
+    gsap.set(columnContainerRef.current.children, {
+      scaleY: 0,
+      transformOrigin: "bottom",
+    });
+  }
+
   function _show() {
-    console.log("show starts");
     if (!columnContainerRef.current || !mainRef.current) return;
     const tl = gsap.timeline({
       onComplete: () => {
@@ -38,121 +50,99 @@ export default function Transition({
       },
     });
 
-    tl.fromTo(
-      mainRef.current,
-      { y: 0, opacity: 1 },
-      {
-        y: -200,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        delay: 0.2,
-        onComplete: () => {
-          console.log("main hidden, going to", pageToGoTo);
-        },
-      }
-    );
-    tl.fromTo(
+    gsap.set(mainRef.current, {
+      opacity: 1,
+    });
+
+    _resetColumns();
+
+    tl.to(mainRef.current, {
+      y: -100,
+      opacity: 0,
+      duration: 1,
+    });
+
+    tl.to(
       columnContainerRef.current,
-      { yPercent: 100 },
       {
         yPercent: 0,
         duration: 0.5,
         ease: "power3.out",
         overwrite: "auto",
-
-        onComplete: () => {
-          console.log("columns shown");
-        },
-      }
+      },
+      0
     );
 
-    gsap.set(columnContainerRef.current.children, {
-      transformOrigin: "bottom",
-    });
-
-    tl.fromTo(
+    tl.to(
       columnContainerRef.current.children,
-      { scaleY: 0 },
       {
         scaleY: 1,
         duration: 1,
         stagger: 0.1,
         ease: "hop",
         overwrite: "auto",
-        onComplete: () => {
-          console.log("columns scaled");
-        },
-      }
+      },
+      0.2
     );
   }
 
   function _hide() {
-    console.log("hide starts");
     if (!columnContainerRef.current || !mainRef.current) return;
-    console.log("hiding");
+
     const tl = gsap.timeline({
       onComplete: () => {
         setIsFirstLoad(false);
         setIsTransitionActive(false);
+        setPageToGoTo(null);
       },
+    });
+
+    gsap.set(mainRef.current, {
+      opacity: 0,
+      y: 200,
     });
 
     gsap.set(columnContainerRef.current.children, {
       transformOrigin: "top",
     });
 
-    tl.fromTo(
-      columnContainerRef.current.children,
-      { scaleY: 1 },
-      {
-        scaleY: 0,
-        stagger: 0.1,
-        overwrite: "auto",
-        onComplete: () => {
-          console.log("columns unscaled to top");
-        },
-      }
-    );
+    tl.to(columnContainerRef.current.children, {
+      scaleY: 0,
+      stagger: 0.1,
+      duration: 1,
+      overwrite: "auto",
+    });
 
-    tl.fromTo(
+    tl.to(
       columnContainerRef.current,
-      { yPercent: 0 },
       {
         yPercent: -100,
         duration: 0.5,
         ease: "power3.out",
         overwrite: "auto",
-        onComplete: () => {
-          console.log("columns hidden");
-        },
-      }
+      },
+      1
     );
 
-    tl.fromTo(
+    tl.to(
       mainRef.current,
-      { y: 200, opacity: 0 },
       {
         y: 0,
         opacity: 1,
         duration: 1,
-        ease: "power3.out",
-        delay: 0.6,
-        overwrite: "auto",
-        onComplete: () => {
-          console.log("main shown");
-          setPageToGoTo(null);
-        },
       },
-      "<"
+      1
     );
   }
 
   useGSAP(() => {
     ScrollTrigger.refresh();
 
-    console.log("isfirstload", isFirstLoad);
-    if (isFirstLoad) return;
+    if (isFirstLoad) {
+      _resetColumns();
+      return;
+    }
+
     _hide();
   }, [pathname]);
 
@@ -167,13 +157,13 @@ export default function Transition({
       <main ref={mainRef}>{children}</main>
       <div
         ref={columnContainerRef}
-        className="flex fixed inset-0 z-500 bg-zinc-100 translate-y-full"
+        className="flex fixed inset-0 z-500 bg-zinc-100"
       >
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="bg-zinc-500 w-full h-screen scale-y-0" />
+          <div key={i} className="bg-zinc-200 w-full h-screen scale-y-0" />
         ))}
       </div>
-      <span>Amuséez-vous</span>
+      {/* <span>Amuséez-vous</span> */}
     </>
   );
 }

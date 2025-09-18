@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { Architects_Daughter, Quintessential, Sen } from "next/font/google";
+import { Quintessential, Sen } from "next/font/google";
 import "./globals.css";
 import { Lenis } from "@/lib/Lenis";
 import { Cursor } from "@/lib/Cursor";
@@ -8,6 +8,7 @@ import GSAP from "@/lib/GSAP";
 import { Header } from "@/components/layouts/Header";
 import Transition from "@/components/animations/Transition";
 import Preloader from "@/components/animations/Preloader";
+import { Footer } from "@/components/layouts/Footer";
 
 const sen = Sen({
   variable: "--font-sans",
@@ -33,16 +34,17 @@ export default function RootLayout({
   return (
     <html lang="en" className="min-h-dvh">
       <body
-        className={`${sen.variable} ${quintessential.variable} antialiased min-h-dvh`}
+        className={`${sen.variable} ${quintessential.variable} antialiased min-h-dvh pt-16`}
       >
         <NuqsAdapter>
           <Preloader />
+          <Header />
           <Transition>
             <Lenis>
               <Cursor />
               <GSAP />
-              <Header />
               {children}
+              <Footer />
             </Lenis>
           </Transition>
         </NuqsAdapter>

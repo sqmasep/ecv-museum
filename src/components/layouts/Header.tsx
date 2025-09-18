@@ -1,9 +1,11 @@
 import { PaintingSearch } from "@/features/search/components/PaintingSearch";
-import Link from "next/link";
 import { Button } from "../ui/button";
 import TransitionLink from "../animations/TransitionLink";
+import { getAllPaintings } from "@/utils/server/museum";
 
-export function Header() {
+export async function Header() {
+  const { paintings } = await getAllPaintings();
+
   return (
     <header className="fixed w-full left-0 top-0 z-40 backdrop-blur-2xl bg-white/60">
       <div className="container mx-auto flex items-center h-16 justify-between">
@@ -22,7 +24,7 @@ export function Header() {
           </Button>
         </div>
 
-        <PaintingSearch />
+        <PaintingSearch paintings={paintings} />
       </div>
     </header>
   );
