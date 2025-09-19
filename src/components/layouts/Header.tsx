@@ -20,7 +20,7 @@ export async function Header() {
             <TransitionLink href="/paintings">Paintings</TransitionLink>
           </Button>
           <Button asChild variant="ghost">
-            <TransitionLink href="/billetterie">Billetterie</TransitionLink>
+            <TransitionLink href="/tickets">Tickets</TransitionLink>
           </Button>
         </div>
 

@@ -6,21 +6,34 @@ import TransitionLink from "@/components/animations/TransitionLink";
 import { cn } from "@/lib/utils";
 import { PaintingSchema } from "@/validation/paintings";
 import { useQueryState } from "nuqs";
+import { useDeferredValue } from "react";
 
 export function PaintingsResults({
   paintings,
 }: {
   paintings: PaintingSchema[];
 }) {
+  const [q] = useQueryState("q");
   const [year] = useQueryState("year");
   const [artist] = useQueryState("artist");
   const [movement] = useQueryState("movement");
+
+  const query = useDeferredValue(q);
+
+  const filteredPaintings = paintings.filter(p => {
+    if (query && !p.title.toLowerCase().includes(query.toLowerCase()))
+      return false;
+    if (artist && p.artist !== artist) return false;
+    if (movement && p.movement !== movement) return false;
+    if (year && p.year.toString() !== year) return false;
+    return true;
+  });
 
   return (
     <div>
       {artist} - {movement} - {year} ({paintings?.length} results)
       <div className="grid grid-cols-4 gap-4">
-        {paintings.map((painting, i) => (
+        {filteredPaintings.map((painting, i) => (
           <TransitionLink
             href={`/paintings/${painting.slug}`}
             className={cn(

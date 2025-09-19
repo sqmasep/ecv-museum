@@ -1,7 +1,6 @@
 import { Copy } from "@/components/animations/Copy";
 import { Image } from "@/components/Image";
 import { Badge } from "@/components/ui/badge";
-import { Carousel } from "@/components/ui/carousel";
 import { RelatedPaintings } from "@/features/recommandations/components/RelatedPaintings";
 import { htmlToText } from "@/utils/parser";
 import {
@@ -9,7 +8,6 @@ import {
   getPaintingBySlug,
   getRelatedPaintings,
 } from "@/utils/server/museum";
-import { MapPin } from "lucide-react";
 
 export const revalidate = 3600; // revalidate this page every hour
 

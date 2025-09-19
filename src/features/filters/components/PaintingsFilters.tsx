@@ -40,6 +40,13 @@ export function PaintingsFilters({
     clearOnDefault: true,
   });
 
+  function clearFilters() {
+    setQuery("");
+    setArtist("");
+    setMovement("");
+    setYear("");
+  }
+
   return (
     <div {...props} className={cn("flex items-center gap-2", className)}>
       <div>
@@ -47,39 +54,31 @@ export function PaintingsFilters({
         <Input value={query} onChange={e => setQuery(e.target.value)} />
       </div>
 
-      <div>
-        <Label htmlFor="artist">Artist</Label>
+      <Select value={artist} onValueChange={setArtist}>
+        <SelectTrigger id="artist">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {[...new Set(paintings.map(p => p.artist))].map(artist => (
+            <SelectItem key={artist} value={artist}>
+              {artist}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-        <Select value={artist} onValueChange={setArtist}>
-          <SelectTrigger id="artist">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {[...new Set(paintings.map(p => p.artist))].map(artist => (
-              <SelectItem key={artist} value={artist}>
-                {artist}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div>
-        <Label htmlFor="movement">Movement</Label>
-
-        <Select value={movement} onValueChange={setMovement}>
-          <SelectTrigger id="movement">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {[...new Set(paintings.map(p => p.movement))].map(movement => (
-              <SelectItem key={movement} value={movement}>
-                {movement}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <Select value={movement} onValueChange={setMovement}>
+        <SelectTrigger id="movement">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {[...new Set(paintings.map(p => p.movement))].map(movement => (
+            <SelectItem key={movement} value={movement}>
+              {movement}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 }
