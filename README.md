@@ -1,36 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ECV Museum
 
-## Getting Started
+Ce projet d'école est un site de musée présentant des peintures célèbres ainsi qu'une billetterie
 
-First, run the development server:
+## Pourquoi NextJS?
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+NextJS est le framework que j'utilise pour 99.99999% dans mes projets perso, et ça c'est dû à plusieurs facteurs. J'avais commencé React car c'était le choix populaire dans les frameworks frontend, et cette popularité est intéressante pour la documentation et les nombreux guides/tutos/aides en ligne. Ça a résolu beaucoup de problèmes que j'avais et j'ai tunnel sur cette techno, avec le nombre de libs disponibles aussi c'est le choix le plus intéressant.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ensuite la suite logique c'est le fullstack, donc NextJS c'est le choix obvious quand on utilise React (non merci Remix)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Le routing c'est un gros point fort de Next, ça permet d'organiser les fichiers directement tout en ayant le routing de manière automatique. Encore une fois, c'est une techno populaire qui fonctionne bien et avec beaucoup d'avantages (la syntaxe: export const revalidate = ... qui est gérée automatiquement etc)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+La popularité de NextJS incite aux développeurs de libs à créer des adapteurs, et donc on peut combiner des libs répondant à des besoins spécifiques sur le même framework, rendant l'expérience développeur très sympa.
 
-## Learn More
+Il y a quand même deux points pas évidents avec Next, c'est le stockage d'image et les websockets. Les websockets sont impossibles avec Next, ça nécessite un serv externe comme pour un jeu que je dev, et synchroniser les deux est encore un mystère pour moi, notamment pour le cache.
 
-To learn more about Next.js, take a look at the following resources:
+Une app NextJS est assez low-level par rapport à un wordpress aussi, il faut implémenter pas mal de choses à la main. C'est un inconvénient tout comme un avantage, ça permet d'avoir un contrôle total sur ce que fait l'app, contrairement à des plugins wordpress, mais par conséquent ça veut aussi dire de tout implémenter à la main.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Certains disent que NextJS est overkill pour des sites simples et que ça ne devrait pas être le choix par défaut, mais je suis en désaccord avec ça. Ça répond à une grande partie des cas de figures, site vitrine, site créatif, webapp, dashboard... sans détruire la performance derrière.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+En conclusion j'aime bien NextJS pour tout ça
