@@ -7,7 +7,7 @@ export default async function Home() {
 
   return (
     <div>
-      <Hero />
+      <Hero painting={paintings[0]} />
       <Gallery paintings={paintings} />
     </div>
   );

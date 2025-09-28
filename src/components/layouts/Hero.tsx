@@ -1,11 +1,13 @@
 "use client";
 
 import { Copy } from "@/components/animations/Copy";
+import { PaintingSchema } from "@/validation/paintings";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ComponentRef, useRef } from "react";
+import { Image } from "../Image";
 
-export function Hero() {
+export function Hero({ painting }: { painting: PaintingSchema }) {
   const lineRef = useRef<ComponentRef<"div">>(null);
 
   useGSAP(() => {
@@ -26,8 +28,9 @@ export function Hero() {
   return (
     <section className="h-dvh bg-zinc-50 text-zinc-950 grid place-items-center">
       <div className="container mx-auto flex justify-between">
-        {/* <Image src="./.png" alt="Test" /> */}
-        <div className="w-128 h-144 bg-zinc-200" />
+        <div className="w-128 h-144 bg-zinc-200 overflow-hidden relative">
+          <Image src={painting.image} alt={painting.title} />
+        </div>
         <h1 className="font-bold text-9xl uppercase self-end">
           <div className="h-0.5 bg-foreground" ref={lineRef} />
 

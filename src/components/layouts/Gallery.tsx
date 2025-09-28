@@ -14,7 +14,7 @@ export function Gallery({ paintings }: { paintings: PaintingSchema[] }) {
           <TransitionLink
             key={painting.id}
             href={`/paintings/${painting.slug}`}
-            className="text-4xl font-cursive mix-blend-difference text-center text-white"
+            className="text-4xl font-cursive text-center text-white"
           >
             <Parallax
               background={
