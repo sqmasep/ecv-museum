@@ -23,6 +23,7 @@ export function Lenis({ children }: { children: React.ReactNode }) {
         gestureOrientation: "vertical",
 
         // Performance and smoothness
+        // @ts-expect-error lenis types are broken
         smooth: true,
         smoothTouch: false, // Usually false for better mobile performance
         syncTouch: true, // Important for iOS

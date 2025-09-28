@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { useGlobalStore } from "@/lib/stores/globalStore";
 
@@ -16,7 +16,6 @@ export default function TransitionLink({
   const defaultRef = useRef(null);
   const { isTransitionActive, setIsTransitionActive, setPageToGoTo } =
     useGlobalStore();
-  const router = useRouter();
   const pathname = usePathname();
 
   return (

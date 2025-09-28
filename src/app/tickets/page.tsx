@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { TicketsSidebar } from "@/features/tickets/components/TicketsSidebar";
 import { TICKETS } from "@/features/tickets/data/tickets";
 import { useTicketStore } from "@/features/tickets/stores/ticketStore";
-import { cn } from "@/lib/utils";
 
 export default function BilletteriePage() {
   const ticketStore = useTicketStore();
@@ -12,7 +11,7 @@ export default function BilletteriePage() {
   return (
     <div className="flex gap-8 justify-between min-h-dvh">
       <div className="grow max-w-6xl mx-auto">
-        Billetterie
+        <h1 className="text-6xl font-bold">Billetterie</h1>
         <div className="grid grid-cols-4 gap-4">
           {TICKETS.map(ticket => (
             <div

@@ -21,10 +21,12 @@ export function Copy({
   className?: string;
   ref?: React.RefObject<HTMLDivElement>;
 }) {
-  const containerRef = ref || useRef(null);
-  const elementRefs = useRef([]);
-  const splitRefs = useRef([]);
-  const lines = useRef([]);
+  const defaultRef = useRef(null);
+  const elementRefs = useRef<Element[]>([]);
+  const splitRefs = useRef<SplitText[]>([]);
+  const lines = useRef<Element[]>([]);
+
+  const containerRef = ref || defaultRef;
 
   useGSAP(
     () => {
@@ -34,7 +36,7 @@ export function Copy({
       lines.current = [];
       elementRefs.current = [];
 
-      let elements = [];
+      let elements = [] as Element[];
       if (containerRef.current.hasAttribute("data-copy-wrapper")) {
         elements = Array.from(containerRef.current.children);
       } else {
@@ -58,8 +60,10 @@ export function Copy({
 
         if (textIndent && textIndent !== "0px") {
           if (split.lines.length > 0) {
+            // @ts-expect-error typescript is dumb
             split.lines[0].style.paddingLeft = textIndent;
           }
+          // @ts-expect-error typescript is dumb
           element.style.textIndent = "0";
         }
 
@@ -103,7 +107,8 @@ export function Copy({
   );
 
   if (React.Children.count(children) === 1) {
-    return React.cloneElement(children, {
+    return React.cloneElement(children as React.ReactElement, {
+      // @ts-expect-error typescript is dumb
       ref: containerRef,
       className,
     });

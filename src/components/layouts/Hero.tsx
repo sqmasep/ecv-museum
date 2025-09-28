@@ -1,6 +1,5 @@
 "use client";
 
-import { Image } from "@/components/Image";
 import { Copy } from "@/components/animations/Copy";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";

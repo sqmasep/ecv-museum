@@ -14,7 +14,6 @@ export default function Transition({
 }: {
   children?: React.ReactNode;
 }) {
-  const transitionRef = useRef<ComponentRef<"div">>(null);
   const columnContainerRef = useRef<ComponentRef<"div">>(null);
   const mainRef = useRef<ComponentRef<"div">>(null);
 

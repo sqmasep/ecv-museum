@@ -7,8 +7,8 @@ interface GlobalStore {
   setIsFirstLoad: (val: boolean) => void;
   pageToGoTo: string | null;
   setPageToGoTo: (page: string | null) => void;
-  cursorInstance: any;
-  setCursorInstance: (cursor: any) => void;
+  cursorInstance: unknown;
+  setCursorInstance: (cursor: unknown) => void;
 }
 
 export const useGlobalStore = create<GlobalStore>()(set => ({

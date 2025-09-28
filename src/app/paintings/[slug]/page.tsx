@@ -70,8 +70,8 @@ export default async function PaintingPage({
 
       <div className="max-w-3xl mt-20 mx-auto">{description}</div>
 
-      <div>
-        <h2 className="text-2xl font-bold">Related paintings</h2>
+      <div className="py-20 bg-zinc-50 mt-20">
+        <h2 className="text-2xl font-bold text-center">Related paintings</h2>
         <RelatedPaintings
           className="container mx-auto"
           paintings={relatedPaintings}

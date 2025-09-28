@@ -6,10 +6,9 @@ export default async function Home() {
   const { paintings } = await getAllPaintings();
 
   return (
-    <div className="text-red-400">
+    <div>
       <Hero />
       <Gallery paintings={paintings} />
-      <section className="h-dvh">yo</section>
     </div>
   );
 }

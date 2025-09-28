@@ -13,7 +13,7 @@ export function Footer() {
   useLayoutEffect(() => {
     if (pathname === "/") toggleDark(true);
     else toggleDark(false);
-  }, [pathname]);
+  }, [pathname, toggleDark]);
 
   return (
     <footer
@@ -29,8 +29,9 @@ export function Footer() {
             Amuséez-vous - {new Date().getFullYear()}
           </span>
         </div>
-        <div>
+        <div className="flex flex-col gap-2">
           <TransitionLink href="/paintings">Paintings</TransitionLink>
+          <TransitionLink href="/tickets">Tickets</TransitionLink>
         </div>
         <div></div>
       </div>

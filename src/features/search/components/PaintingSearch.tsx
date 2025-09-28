@@ -47,7 +47,7 @@ export function PaintingSearch({ paintings }: { paintings: PaintingSchema[] }) {
     });
 
     setResults(filtered.slice(0, MAX_RESULTS_LENGTH));
-  }, [debouncedQuery]);
+  }, [debouncedQuery, paintings]);
 
   return (
     <div className="relative">

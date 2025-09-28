@@ -65,6 +65,18 @@ export async function getRelatedPaintings(painting: PaintingSchema) {
       related.push(p);
       continue;
     }
+
+    // Related by year (within a decade)
+    if (p.year >= painting.year - 10 && p.year <= painting.year + 10) {
+      related.push(p);
+      continue;
+    }
+
+    // Related by location
+    if (p.location === painting.location) {
+      related.push(p);
+      continue;
+    }
   }
 
   return related;

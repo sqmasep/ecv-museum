@@ -1,7 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -9,13 +9,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 import { PaintingSchema } from "@/validation/paintings";
+import { Trash } from "lucide-react";
 import { useQueryState } from "nuqs";
 
 export function PaintingsFilters({
   paintings,
-  className,
   ...props
 }: {
   paintings: PaintingSchema[];
@@ -48,37 +47,49 @@ export function PaintingsFilters({
   }
 
   return (
-    <div {...props} className={cn("flex items-center gap-2", className)}>
-      <div>
-        <Label htmlFor="query">Search</Label>
-        <Input value={query} onChange={e => setQuery(e.target.value)} />
+    <div {...props}>
+      <div className="container mx-auto flex items-center gap-2 rounded-full p-2 bg-zinc-100 m-4">
+        <div>
+          <Input
+            placeholder="Search paintings..."
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+          />
+        </div>
+
+        <Select value={artist} onValueChange={setArtist}>
+          <SelectTrigger id="artist">
+            <SelectValue placeholder="Artist" />
+          </SelectTrigger>
+          <SelectContent>
+            {[...new Set(paintings.map(p => p.artist))].map(artist => (
+              <SelectItem key={artist} value={artist}>
+                {artist}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={movement} onValueChange={setMovement}>
+          <SelectTrigger id="movement">
+            <SelectValue placeholder="Movement" />
+          </SelectTrigger>
+          <SelectContent>
+            {[...new Set(paintings.map(p => p.movement))].map(movement => (
+              <SelectItem key={movement} value={movement}>
+                {movement}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {(year || query.length > 0 || artist || movement) && (
+          <Button variant="outline" onClick={clearFilters}>
+            Clear filters
+            <Trash />
+          </Button>
+        )}
       </div>
-
-      <Select value={artist} onValueChange={setArtist}>
-        <SelectTrigger id="artist">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {[...new Set(paintings.map(p => p.artist))].map(artist => (
-            <SelectItem key={artist} value={artist}>
-              {artist}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-
-      <Select value={movement} onValueChange={setMovement}>
-        <SelectTrigger id="movement">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {[...new Set(paintings.map(p => p.movement))].map(movement => (
-            <SelectItem key={movement} value={movement}>
-              {movement}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
     </div>
   );
 }

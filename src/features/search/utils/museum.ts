@@ -1,7 +1,4 @@
 import { getAllPaintings } from "@/utils/server/museum";
-import { paintingsResponseSchema } from "@/validation/paintings";
-
-const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
 export async function queryPaintings(query: string) {
   const { paintings } = await getAllPaintings();
